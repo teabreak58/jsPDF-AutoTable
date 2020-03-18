@@ -1,18 +1,10 @@
 // https://stackoverflow.com/questions/30694428/jspdf-server-side-node-js-usage-using-node-jspdf
 
-global.window = {
-  document: {
-    createElementNS: () => {
-      return {}
-    },
-  },
-}
-global.navigator = {}
-global.html2pdf = {}
-global.btoa = () => {}
+// Build issue defines a tmp window object at top level in jspdf 1.5.3
+global.window = {}
 
 const fs = require('fs')
-const jsPDF = require('jspdf')
+const jsPDF = require('jspdf/dist/jspdf.node.debug')
 require('jspdf-autotable')
 
 const doc = new jsPDF()
@@ -37,8 +29,3 @@ doc.autoTable({
 const data = doc.output()
 
 fs.writeFileSync('./document.pdf', data, 'binary')
-
-delete global.window
-delete global.navigator
-delete global.btoa
-delete global.html2pdf
